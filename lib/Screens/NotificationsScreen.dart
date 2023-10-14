@@ -7,7 +7,8 @@ import 'package:twitter/Services/DatabaseServices.dart';
 class NotificationsScreen extends StatefulWidget {
   final String currentUserId;
 
-  const NotificationsScreen({Key key, this.currentUserId}) : super(key: key);
+  const NotificationsScreen({Key? key, required this.currentUserId})
+      : super(key: key);
   @override
   _NotificationsScreenState createState() => _NotificationsScreenState();
 }
@@ -38,9 +39,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 ListTile(
                   leading: CircleAvatar(
                     radius: 20,
-                    backgroundImage: user.profilePicture.isEmpty
-                        ? AssetImage('assets/placeholder.png')
-                        : NetworkImage(user.profilePicture),
+                    // TODO: network image
+                    // backgroundImage: user.profilePicture.isEmpty
+                    //     ? AssetImage('assets/placeholder.png')
+                    //     // : NetworkImage(user.profilePicture),
+                    //     : NetworkImage(user.profilePicture ?? '')
                   ),
                   title: activity.follow == true
                       ? Text('${user.name} follows you')

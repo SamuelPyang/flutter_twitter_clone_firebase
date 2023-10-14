@@ -10,7 +10,7 @@ class AuthService {
       UserCredential authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      User signedInUser = authResult.user;
+      User? signedInUser = authResult.user;
 
       if (signedInUser != null) {
         _fireStore.collection('users').doc(signedInUser.uid).set({

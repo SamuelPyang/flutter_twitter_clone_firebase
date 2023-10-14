@@ -11,17 +11,17 @@ import 'package:twitter/Services/StorageService.dart';
 class EditProfileScreen extends StatefulWidget {
   final UserModel user;
 
-  const EditProfileScreen({Key key, this.user}) : super(key: key);
+  const EditProfileScreen({Key? key, required this.user}) : super(key: key);
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  String _name;
-  String _bio;
-  File _profileImage;
-  File _coverImage;
-  String _imagePickedType;
+  String _name = '';
+  String _bio = '';
+  File? _profileImage;
+  File? _coverImage;
+  String _imagePickedType = '';
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -31,7 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return NetworkImage(widget.user.coverImage);
       }
     } else {
-      return FileImage(_coverImage);
+      return FileImage(_coverImage!);
     }
   }
 
@@ -43,13 +43,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return NetworkImage(widget.user.profilePicture);
       }
     } else {
-      return FileImage(_profileImage);
+      return FileImage(_profileImage!);
     }
   }
 
   saveProfile() async {
-    _formKey.currentState.save();
-    if (_formKey.currentState.validate() && !_isLoading) {
+    _formKey.currentState?.save();
+    if (_formKey.currentState!.validate() && !_isLoading) {
       setState(() {
         _isLoading = true;
       });
@@ -59,13 +59,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         profilePictureUrl = widget.user.profilePicture;
       } else {
         profilePictureUrl = await StorageService.uploadProfilePicture(
-            widget.user.profilePicture, _profileImage);
+            widget.user.profilePicture, _profileImage!);
       }
       if (_coverImage == null) {
         coverPictureUrl = widget.user.coverImage;
       } else {
         coverPictureUrl = await StorageService.uploadCoverPicture(
-            widget.user.coverImage, _coverImage);
+            widget.user.coverImage, _coverImage!);
       }
       UserModel user = UserModel(
         id: widget.user.id,
@@ -73,6 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         profilePicture: profilePictureUrl,
         bio: _bio,
         coverImage: coverPictureUrl,
+        email: '',
       );
 
       DatabaseServices.updateUserData(user);
@@ -82,15 +83,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   handleImageFromGallery() async {
     try {
-      File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+      final ImagePicker picker = ImagePicker();
+// Pick an image.
+      final XFile? imageFile =
+          await picker.pickImage(source: ImageSource.gallery);
+      // File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       if (imageFile != null) {
         if (_imagePickedType == 'profile') {
           setState(() {
-            _profileImage = imageFile;
+            _profileImage = imageFile as File?;
           });
         } else if (_imagePickedType == 'cover') {
           setState(() {
-            _coverImage = imageFile;
+            _coverImage = imageFile as File?;
           });
         }
       }
@@ -241,11 +246,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             labelText: 'Name',
                             labelStyle: TextStyle(color: KTweeterColor),
                           ),
-                          validator: (input) => input.trim().length < 2
+                          validator: (input) => input!.trim().length < 2
                               ? 'please enter valid name'
                               : null,
                           onSaved: (value) {
-                            _name = value;
+                            _name = value!;
                           },
                         ),
                         SizedBox(height: 30),
@@ -256,7 +261,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             labelStyle: TextStyle(color: KTweeterColor),
                           ),
                           onSaved: (value) {
-                            _bio = value;
+                            _bio = value!;
                           },
                         ),
                         SizedBox(height: 30),

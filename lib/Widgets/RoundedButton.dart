@@ -3,9 +3,10 @@ import 'package:twitter/Constants/Constants.dart';
 
 class RoundedButton extends StatelessWidget {
   final String btnText;
-  final Function onBtnPressed;
+  final Function()? onBtnPressed;
 
-  const RoundedButton({Key key, this.btnText, this.onBtnPressed})
+  const RoundedButton(
+      {Key? key, required this.btnText, required this.onBtnPressed})
       : super(key: key);
   @override
   Widget build(BuildContext context) {

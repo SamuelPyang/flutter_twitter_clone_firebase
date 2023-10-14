@@ -8,13 +8,13 @@ import 'package:twitter/Services/DatabaseServices.dart';
 class SearchScreen extends StatefulWidget {
   final String currentUserId;
 
-  const SearchScreen({Key key, this.currentUserId}) : super(key: key);
+  const SearchScreen({Key? key, required this.currentUserId}) : super(key: key);
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  Future<QuerySnapshot> _users;
+  Future<QuerySnapshot>? _users;
   TextEditingController _searchController = TextEditingController();
 
   clearSearch() {
@@ -29,9 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
     return ListTile(
       leading: CircleAvatar(
         radius: 20,
-        backgroundImage: user.profilePicture.isEmpty
-            ? AssetImage('assets/placeholder.png')
-            : NetworkImage(user.profilePicture),
+        // TODO: to set image
+        // backgroundImage: user.profilePicture.isEmpty
+        //     ? AssetImage('assets/placeholder.png')
+        //     : NetworkImage(user.profilePicture),
       ),
       title: Text(user.name),
       onTap: () {

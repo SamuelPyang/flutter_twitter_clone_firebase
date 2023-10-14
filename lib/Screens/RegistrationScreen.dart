@@ -9,9 +9,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  String _email;
-  String _password;
-  String _name;
+  String _email = '';
+  String _password = '';
+  String _name = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

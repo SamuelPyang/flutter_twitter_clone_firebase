@@ -9,7 +9,11 @@ class TweetContainer extends StatefulWidget {
   final UserModel author;
   final String currentUserId;
 
-  const TweetContainer({Key key, this.tweet, this.author, this.currentUserId})
+  const TweetContainer(
+      {Key? key,
+      required this.tweet,
+      required this.author,
+      required this.currentUserId})
       : super(key: key);
   @override
   _TweetContainerState createState() => _TweetContainerState();
@@ -63,9 +67,10 @@ class _TweetContainerState extends State<TweetContainer> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: widget.author.profilePicture.isEmpty
-                    ? AssetImage('assets/placeholder.png')
-                    : NetworkImage(widget.author.profilePicture),
+                // TODO: to set image
+                // backgroundImage: widget.author.profilePicture.isEmpty
+                //     ? AssetImage('assets/placeholder.png')
+                //     : NetworkImage(widget.author.profilePicture),
               ),
               SizedBox(width: 10),
               Text(

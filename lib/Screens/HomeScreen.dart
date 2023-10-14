@@ -9,7 +9,7 @@ import 'package:twitter/Widgets/TweetContainer.dart';
 class HomeScreen extends StatefulWidget {
   final String currentUserId;
 
-  const HomeScreen({Key key, this.currentUserId}) : super(key: key);
+  const HomeScreen({Key? key, required this.currentUserId}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

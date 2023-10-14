@@ -13,7 +13,8 @@ class ProfileScreen extends StatefulWidget {
   final String currentUserId;
   final String visitedUserId;
 
-  const ProfileScreen({Key key, this.currentUserId, this.visitedUserId})
+  const ProfileScreen(
+      {Key? key, required this.currentUserId, required this.visitedUserId})
       : super(key: key);
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -241,9 +242,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           CircleAvatar(
                             radius: 45,
-                            backgroundImage: userModel.profilePicture.isEmpty
-                                ? AssetImage('assets/placeholder.png')
-                                : NetworkImage(userModel.profilePicture),
+                            // TODO: to set image
+                            // backgroundImage: userModel.profilePicture.isEmpty
+                            //     ? AssetImage('assets/placeholder.png')
+                            //     : NetworkImage(userModel.profilePicture),
                           ),
                           widget.currentUserId == widget.visitedUserId
                               ? GestureDetector(
@@ -357,7 +359,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: _profileTabs,
                           onValueChanged: (i) {
                             setState(() {
-                              _profileSegmentedValue = i;
+                              _profileSegmentedValue = i ?? 0;
                             });
                           },
                         ),

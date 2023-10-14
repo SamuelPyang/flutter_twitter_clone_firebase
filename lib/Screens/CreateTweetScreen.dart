@@ -12,22 +12,26 @@ import 'package:twitter/Widgets/RoundedButton.dart';
 class CreateTweetScreen extends StatefulWidget {
   final String currentUserId;
 
-  const CreateTweetScreen({Key key, this.currentUserId}) : super(key: key);
+  const CreateTweetScreen({Key? key, required this.currentUserId})
+      : super(key: key);
   @override
   _CreateTweetScreenState createState() => _CreateTweetScreenState();
 }
 
 class _CreateTweetScreenState extends State<CreateTweetScreen> {
-  String _tweetText;
-  File _pickedImage;
+  String _tweetText = '';
+  File? _pickedImage;
   bool _loading = false;
 
   handleImageFromGallery() async {
     try {
-      File imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+      // File imageFile = (await ImagePicker(source: ImageSource.gallery)) as File;
+      final ImagePicker picker = ImagePicker();
+      final XFile? imageFile =
+          await picker.pickImage(source: ImageSource.gallery);
       if (imageFile != null) {
         setState(() {
-          _pickedImage = imageFile;
+          _pickedImage = imageFile.path as File?;
         });
       }
     } catch (e) {
@@ -76,7 +80,7 @@ class _CreateTweetScreenState extends State<CreateTweetScreen> {
                             color: KTweeterColor,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: FileImage(_pickedImage),
+                              image: FileImage(_pickedImage!),
                             )),
                       ),
                       SizedBox(height: 20),
@@ -115,9 +119,10 @@ class _CreateTweetScreenState extends State<CreateTweetScreen> {
                     image = '';
                   } else {
                     image =
-                        await StorageService.uploadTweetPicture(_pickedImage);
+                        await StorageService.uploadTweetPicture(_pickedImage!);
                   }
                   Tweet tweet = Tweet(
+                    id: '',
                     text: _tweetText,
                     image: image,
                     authorId: widget.currentUserId,

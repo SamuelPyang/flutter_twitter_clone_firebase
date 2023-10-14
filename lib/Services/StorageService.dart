@@ -13,7 +13,7 @@ class StorageService {
 
     if (url.isNotEmpty) {
       RegExp exp = RegExp(r'userProfile_(.*).jpg');
-      uniquePhotoId = exp.firstMatch(url)[1];
+      uniquePhotoId = exp.firstMatch(url)![1] ?? '';
     }
     UploadTask uploadTask = storageRef
         .child('images/users/userProfile_$uniquePhotoId.jpg')
@@ -29,7 +29,7 @@ class StorageService {
 
     if (url.isNotEmpty) {
       RegExp exp = RegExp(r'userCover_(.*).jpg');
-      uniquePhotoId = exp.firstMatch(url)[1];
+      uniquePhotoId = exp.firstMatch(url)![1] ?? '';
     }
     UploadTask uploadTask = storageRef
         .child('images/users/userCover_$uniquePhotoId.jpg')
@@ -54,11 +54,11 @@ class StorageService {
   static Future<File> compressImage(String photoId, File image) async {
     final tempDirection = await getTemporaryDirectory();
     final path = tempDirection.path;
-    File compressedImage = await FlutterImageCompress.compressAndGetFile(
+    File compressedImage = (await FlutterImageCompress.compressAndGetFile(
       image.absolute.path,
       '$path/img_$photoId.jpg',
       quality: 70,
-    );
+    )) as File;
     return compressedImage;
   }
 }

@@ -10,7 +10,7 @@ import 'package:twitter/Screens/SearchScreen.dart';
 class FeedScreen extends StatefulWidget {
   final String currentUserId;
 
-  const FeedScreen({Key key, this.currentUserId}) : super(key: key);
+  const FeedScreen({Key? key, required this.currentUserId}) : super(key: key);
   @override
   _FeedScreenState createState() => _FeedScreenState();
 }

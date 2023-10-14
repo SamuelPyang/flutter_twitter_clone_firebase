@@ -110,7 +110,7 @@ class DatabaseServices {
     });
   }
 
-  static Future<List> getUserTweets(String userId) async {
+  static Future<List<Tweet>> getUserTweets(String userId) async {
     QuerySnapshot userTweetsSnap = await tweetsRef
         .doc(userId)
         .collection('userTweets')
@@ -138,7 +138,7 @@ class DatabaseServices {
     DocumentReference tweetDocProfile =
         tweetsRef.doc(tweet.authorId).collection('userTweets').doc(tweet.id);
     tweetDocProfile.get().then((doc) {
-      int likes = doc.data()['likes'];
+      int likes = (doc.data() as dynamic)['likes'];
       tweetDocProfile.update({'likes': likes + 1});
     });
 
@@ -146,7 +146,7 @@ class DatabaseServices {
         feedRefs.doc(currentUserId).collection('userFeed').doc(tweet.id);
     tweetDocFeed.get().then((doc) {
       if (doc.exists) {
-        int likes = doc.data()['likes'];
+        int likes = (doc.data() as dynamic)['likes'];
         tweetDocFeed.update({'likes': likes + 1});
       }
     });
@@ -160,7 +160,7 @@ class DatabaseServices {
     DocumentReference tweetDocProfile =
         tweetsRef.doc(tweet.authorId).collection('userTweets').doc(tweet.id);
     tweetDocProfile.get().then((doc) {
-      int likes = doc.data()['likes'];
+      int likes = (doc.data() as dynamic)['likes'];
       tweetDocProfile.update({'likes': likes - 1});
     });
 
@@ -168,7 +168,7 @@ class DatabaseServices {
         feedRefs.doc(currentUserId).collection('userFeed').doc(tweet.id);
     tweetDocFeed.get().then((doc) {
       if (doc.exists) {
-        int likes = doc.data()['likes'];
+        int likes = (doc.data() as dynamic)['likes'];
         tweetDocFeed.update({'likes': likes - 1});
       }
     });
@@ -206,7 +206,7 @@ class DatabaseServices {
   }
 
   static void addActivity(
-      String currentUserId, Tweet tweet, bool follow, String followedUserId) {
+      String currentUserId, Tweet? tweet, bool follow, String? followedUserId) {
     if (follow) {
       activitiesRef.doc(followedUserId).collection('userActivities').add({
         'fromUserId': currentUserId,
@@ -215,7 +215,7 @@ class DatabaseServices {
       });
     } else {
       //like
-      activitiesRef.doc(tweet.authorId).collection('userActivities').add({
+      activitiesRef.doc(tweet!.authorId).collection('userActivities').add({
         'fromUserId': currentUserId,
         'timestamp': Timestamp.fromDate(DateTime.now()),
         "follow": false,
